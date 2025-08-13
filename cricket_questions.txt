@@ -1,0 +1,9 @@
+Scrape the Score of World Cup 1983 Match from Wikipedia. It is at the URL:
+https://en.wikipedia.org/wiki/1983_Cricket_World_Cup_Final
+
+Answer the following questions and respond with a JSON array of strings containing the answer.
+
+1. What was the total number of runs scored by India in the match?
+2. What was the total number of runs scored by West Indies in the match?
+3. Which Indian bowler took the most wickets while conceding the fewest runs?
+4. Which team won the match, and by what margin runs?

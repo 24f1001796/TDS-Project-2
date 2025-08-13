@@ -1,0 +1,68 @@
+description: "Sample evaluation – network dataset"
+providers:
+  - id: http
+    config:
+      url: "http://localhost:8000/api/"
+      method: POST
+      body:
+        questions_txt: file://questions.txt
+        files: file://edges.csv
+
+tests:
+  - vars:
+      prompt: file://questions.txt
+    assert:
+    - type: is-json
+      value:
+        type: object
+        required:
+          [
+            edge_count,
+            highest_degree_node,
+            average_degree,
+            density,
+            shortest_path_alice_eve,
+            network_graph,
+            degree_histogram,
+          ]
+        properties:
+          edge_count: { type: number }
+          highest_degree_node: { type: string }
+          average_degree: { type: number }
+          density: { type: number }
+          shortest_path_alice_eve: { type: number }
+          network_graph: { type: string }
+          degree_histogram: { type: string }
+    - type: python
+      weight: 3
+      value: |
+        if output["edge_count"] == 7:
+          return True
+        return False
+    - type: python 
+      weight: 3
+      value: |
+        if output["highest_degree_node"].lower() == "bob":
+          return True
+        return False
+    - type: python
+      weight: 3
+      value: |
+        val = float(output["average_degree"])
+        if abs(val - 2.8) <= 0.001:
+          return True
+        return False
+    - type: python
+      weight: 3
+      value: |
+        val = float(output["density"])
+        if abs(val - 0.7) <= 0.001:
+          return True
+        return False
+    - type: python
+      weight: 3
+      value: |
+        if output["shortest_path_alice_eve"] == 2:
+          return True
+        return False
+
